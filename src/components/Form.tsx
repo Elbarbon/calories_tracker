@@ -1,14 +1,21 @@
-import {useState} from "react"
+import {Dispatch, useState} from "react"
 import { Activity } from "../types"
 import { categories } from "../data/category"
+import { ActivityActions } from "../reducers/activityReducer"
 
-export default function Form() {
+type FromProps = {
+  dispatch: Dispatch<ActivityActions>
+}
 
-  const [activity, setActivity] = useState<Activity>({
-    category: 1,
-    name: "",
-    calories:0
-  })
+const initialState = {
+  category: 1,
+  name: "",
+  calories:0
+}
+
+export default function Form({dispatch}: FromProps) {
+
+  const [activity, setActivity] = useState<Activity>(initialState)
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const isNumberField = ['category', 'calories'].includes(e.target.id)
@@ -25,7 +32,9 @@ export default function Form() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(activity)
+    
+    dispatch({type: "save-activity", payload: {newActivity: activity}})
+    setActivity(initialState)
   }
 
   return (
