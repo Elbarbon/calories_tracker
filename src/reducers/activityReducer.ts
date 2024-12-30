@@ -20,7 +20,7 @@ export const activityReducer = (
         return {
             ...state,
             activities: [...state.activities, action.payload.newActivity]
-        }
+        } 
     }
     return state
 }
